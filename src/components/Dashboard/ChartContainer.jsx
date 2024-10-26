@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 import {
   LineChart,
   Line,
@@ -14,76 +15,10 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  Rectangle,
 } from "recharts";
 
 
-const dataRadial = [
-  { name: "Progress", value: 670 },
-  { name: "Remaining", value: 3200 - 670 },
-];
-
-const COLORS1 = ["#3F72AF", " #d1d5db "];
-const COLORS2 = ["#69a773", "#afc683", "#f3e3a0", "#edb16e", "#e57b54"];
-
-const dataEntry = [
-  {
-    Running: 4000,
-    Swimming: 2400,
-    Workout: 2400,
-    month: "Jan",
-  },
-  {
-    Running: 3000,
-    Swimming: 1398,
-    Workout: 3000,
-    month: "Feb",
-  },
-  {
-    Running: 2000,
-    Swimming: 9800,
-    Workout: 6000,
-    month: "Mar",
-  },
-  {
-    Running: 2780,
-    Swimming: 3908,
-    Workout: 4500,
-    month: "Apr",
-  },
-  {
-    Running: 1890,
-    Swimming: 4800,
-    Workout: 8650,
-    month: "Jun",
-  },
-  {
-    Running: 2390,
-    Swimming: 3800,
-    Workout: 9000,
-    month: "Jul",
-  },
-  {
-    Running: 3490,
-    Swimming: 4300,
-    Workout: 4000,
-    month: "Aug",
-  },
-];
-
-const data = [
-  { name: "Jan", value: 400 },
-  { name: "Feb", value: 300 },
-  { name: "Mar", value: 600 },
-  { name: "Apr", value: 800 },
-  { name: "May", value: 500 },
-];
-
-const pieData = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-];
+import {data , Data , dataEntry , dataRadial , COLORS1 , COLORS2} from "./ChartData"
 
 const Metric = ({ title, value }) => (
   <div className="bg-gray-800 p-4 rounded-lg">
@@ -92,7 +27,23 @@ const Metric = ({ title, value }) => (
   </div>
 );
 
+const socket = io("https://data.gdscnsut.com");
+
 export default function Component() {
+  const [rateData, setRateData] = useState([]);
+
+  useEffect(() => {
+    socket.on("random_number", (data) => {
+      setRateData((currentrateData) => [
+        ...currentrateData,
+        {
+          name: "time",
+          rate: data.number * (100 - 40) + 40,
+        },
+      ]);
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="grid max-lg:grid-cols-1 lg:grid-cols-3 gap-8">
@@ -225,7 +176,14 @@ export default function Component() {
                   />
                 ))}
               </Pie>
-              <Legend layout="vertical" verticalAlign="top" align="right" />
+              <Legend
+                layout="vertical"
+                verticalAlign="top"
+                align="left"
+                wrapperStyle={{
+                  paddingLeft: "10px",
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -234,9 +192,9 @@ export default function Component() {
         <div className="lg:col-span-3 bg-gray-800 p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Heart Rate</h2>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={data}>
-              <Line type="monotone" dataKey="value" stroke="#4ade80" />
-              <XAxis/>
+            <LineChart data={rateData}>
+              <Line type="monotone" dataKey="rate" stroke="#4ade80" />
+              <XAxis />
               <YAxis />
               <Legend />
               <Tooltip />
@@ -249,7 +207,7 @@ export default function Component() {
           <h2 className="text-xl font-bold mb-4">Fitness Score</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
-              data={data}
+              data={Data}
               margin={{
                 top: 5,
                 right: 30,
@@ -263,10 +221,10 @@ export default function Component() {
                   <stop offset="95%" stopColor="#fb923c" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="name" />
+              <XAxis dataKey="month" />
               <YAxis />
               <Legend />
-              <Bar dataKey="value" fill="url(#colorBar)" />
+              <Bar dataKey="Score" fill="url(#colorBar)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -277,8 +235,6 @@ export default function Component() {
           <Metric title="Stamina" value="32%" />
           <Metric title="Strength" value="20%" />
           <Metric title="Endurance" value="15%" />
-          <Metric title="Flexibility" value="10%" />
-          <Metric title="Immunity" value="18%" />
         </div>
       </div>
     </div>

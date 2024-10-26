@@ -4,7 +4,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from './firebase'
 import { toast } from 'react-toastify'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
- 
+
+
 
 function Signin() {
 
@@ -69,13 +70,6 @@ function Signin() {
                         </button>
                     </div>
                 </div>
-                    <div className="flex items-center justify-center mx-6 my-6">
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-green-600 hover:text-green-500">
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div>
                 <div className='relative mx-6 my-5'>
                    <button
                         type="submit"

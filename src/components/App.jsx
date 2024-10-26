@@ -4,8 +4,7 @@ import Signin from "./Signin";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./Dashboard/Dashboard";
 import Component from "./Dashboard/ChartContainer";
-import Hamburger from "./Dashboard/Hamburger";
-import AreaProgressChart from "./Dashboard/test";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,10 +21,6 @@ const router = createBrowserRouter([
   {
     path: "/charts",
     element: <Component />,
-  },
-  {
-    path: "/test",
-    element:<AreaProgressChart/>
   },
 ]);
 
