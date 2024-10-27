@@ -7,7 +7,7 @@ import { useUserAuth } from "./authContext";
 
 function Signup() {
 
-  const { SignUp } = useUserAuth();  
+  const { signUp } = useUserAuth();  
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ function Signup() {
       toast.error("Passwords do not Match!");
     } else {
       try {
-          await SignUp(email, password);
+          await signUp(email, password);
         toast.success("Registered Successfuly!");
         setTimeout(() => {
           navigate("/");
