@@ -6,23 +6,35 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { TbTargetArrow } from "react-icons/tb";
 import logo from "../../assets/201062064.png";
 import { LuLogOut } from "react-icons/lu";
-import Avatar  from "react-avatar";
+import Avatar from "react-avatar";
+import { useUserAuth } from "../authContext";
 
 export default function Navbar() {
+
+  const { logOut } = useUserAuth();
+  const { user } = useUserAuth();
   const [isActiveLink, setIsActiveLink] = useState("dashboard");
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   return (
     <aside className="max-lg:hidden max-h-screen w-64 bg-gray-800 shadow-md">
-      <div className="p-4">
+      <div className="p-6 border-b border-gray-500">
         <div className="w-full h-20 overflow-clip flex items-center justify-center">
           <img src={logo} alt="Fit N Freak Logo" />
         </div>
       </div>
       <div className="p-4">
-        <div className="flex flex-col items-center justify-center pr-5 space-x-4 mb-6">
-          <Avatar  color="#4b5563" textSizeRatio={2} name="F" size="60" round={true} className="px-2 mb-2"></Avatar>
+        <div className="flex flex-col items-center justify-center pr-5 space-x-4 mt-4 mb-6">
+          <Avatar  color="#86efac" textSizeRatio={2} fgColor="#030712" name={user.email} size="60" round={true} className="px-2 mb-2"></Avatar>
           <div>
-            <p className="text-sm text-gray-400">Hey, There!</p>
+            <p className="text-sm text-gray-400">{user.email}</p>
           </div>
         </div>
         <nav>
@@ -118,14 +130,14 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
+              <button
                 className="flex items-center space-x-2 p-2 rounded-lg 
-              text-gray-300 hover:bg-gray-950 hover:text-gray-300"
+              text-gray-300 hover:text-green-300"
+              onClick={handleLogOut}  
               >
                 <LuLogOut className="h-5 w-5" />
                 <span>Log Out</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </nav>

@@ -8,8 +8,12 @@ import { TbTargetArrow } from "react-icons/tb";
 import logo from "../../assets/201062064.png";
 import { LuLogOut } from "react-icons/lu";
 import Avatar from "react-avatar";
+import { useUserAuth } from "../authContext";
 
 export default function Hamburger() {
+
+  const { logOut } = useUserAuth();
+  const { user } = useUserAuth();
   const [isActiveLink, setIsActiveLink] = useState("dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -17,11 +21,20 @@ export default function Hamburger() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+
   return (
     <div className="lg:hidden max-h-screen">
       <nav className="bg-gray-800 text-white p-4 flex justify-between">
         <div className="flex items-center">
-          <button onClick={toggleSidebar} className="focus:outline-none">
+          <button onClick={toggleSidebar} className="focus:outline-none text-gray-200">
             <Menu size={24} />
           </button>
         </div>
@@ -31,21 +44,21 @@ export default function Hamburger() {
       </nav>
 
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 shadow-lg z-10 transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "-translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="p-4">
           <button
             onClick={toggleSidebar}
-            className="float-left focus:outline-none"
+            className="float-left focus:outline-none text-gray-200"
           >
             <X size={24} />
           </button>
-          <div className="flex flex-col items-center justify-center px-5 space-x-4 mt-12">
-          <Avatar  color="#4b5563" textSizeRatio={2} name="F" size="60" round={true} className="px-2 mb-2"></Avatar>
+          <div className="w-full flex flex-col items-center justify-center border-b border-gray-500 pb-12 mt-12">
+          <Avatar  color="#86efac" textSizeRatio={2} name={user.email} fgColor="#030712" size="60" round={true} className="mb-2"></Avatar>
           <div>
-            <p className="text-sm text-gray-400">Hey, There!</p>
+              <p className="text-sm text-gray-400">{user.email}</p>
           </div>
           </div>
           <ul className="space-y-2 mt-12">
@@ -140,14 +153,14 @@ export default function Hamburger() {
               </Link>
             </li>
             <li>
-              <Link
-                to="/login"
+            <button
                 className="flex items-center space-x-2 p-2 rounded-lg 
-              text-gray-300 hover:bg-gray-950 hover:text-gray-300"
+              text-gray-300 hover:text-green-300"
+              onClick={handleLogOut}  
               >
                 <LuLogOut className="h-5 w-5" />
                 <span>Log Out</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

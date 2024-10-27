@@ -1,9 +1,11 @@
-import React , {useState} from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Charts from "./ChartContainer";
 import Hamburger from "./Hamburger";
 
-export default function Dashboard() {
+
+
+export default function Dashboard() {  
   
   return (
     <div className="flex h-screen w-screen">
