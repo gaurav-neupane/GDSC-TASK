@@ -43,13 +43,13 @@ export default function Component() {
         ...(currentrateData.slice(1)),
         {
           name: "time",
-          rate: data.number * (100 - 40) + 40,
+          rate: data.number + (Math.random()*(180 - 50) + 50),
         },
       ]:[
         ...currentrateData,
         {
           name: "time",
-          rate: data.number * (100 - 40) + 40,
+          rate: data.number + (Math.random()*(180 - 50) + 50),
         },
       ]);
     });
