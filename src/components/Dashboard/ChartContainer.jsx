@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Flame, Timer, MoonStar } from 'lucide-react';
+import { IoWaterOutline } from "react-icons/io5";
+
 import { io } from "socket.io-client";
 import {
   LineChart,
@@ -20,8 +23,9 @@ import {
 
 import {data , Data , dataEntry , dataRadial , COLORS1 , COLORS2} from "./ChartData"
 
-const Metric = ({ title, value }) => (
-  <div className="bg-gray-800 p-4 rounded-lg">
+const Metric = ({ title, value , icon}) => (
+  <div className="flex flex-col justify-center items-center bg-gray-800 p-4 rounded-lg">
+    <span className="mb-4 text-gray-400">{icon}</span>
     <h3 className="text-sm font-medium text-gray-100">{title}</h3>
     <p className="text-2xl font-bold text-white">{value}</p>
   </div>
@@ -100,10 +104,10 @@ export default function Component() {
 
         {/* Metrics */}
         <div className="grid grid-cols-2 gap-4">
-          <Metric title="Energy Burn" value="1,234" />
-          <Metric title="Time" value="40m 35s" />
-          <Metric title="Water Intake" value="2.3%" />
-          <Metric title="Sleep" value="60m 45s" />
+          <Metric title="Energy Burn" value="1,234" icon={<Flame className="h-8 w-8"/>} />
+          <Metric title="Time" value="40m 35s" icon={<Timer className="h-8 w-8"/>} />
+          <Metric title="Water Intake" value="2.3%" icon={<IoWaterOutline className="h-8 w-8"/>} />
+          <Metric title="Sleep" value="60m 45s" icon={<MoonStar className="h-8 w-8"/>} />
         </div>
 
         {/* List Section */}
@@ -128,10 +132,11 @@ export default function Component() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
+                    stroke="none"
                     data={dataRadial}
                     cx="50%"
                     cy="50%"
-                    innerRadius={56}
+                    innerRadius={60}
                     outerRadius={70}
                     startAngle={90}
                     endAngle={-270}
@@ -147,8 +152,8 @@ export default function Component() {
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-bold text-foreground">670</span>
-                <span className="text-xl font-medium text-muted-foreground">
+                <span className="text-4xl font-bold">1100</span>
+                <span className="text-xl font-medium">
                   / 3200
                 </span>
               </div>
@@ -158,7 +163,7 @@ export default function Component() {
 
         <div className="bg-gray-800 p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-4">Calories Composition</h2>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={200} className="mt-10">
             <PieChart width={400} height={400}>
               <Pie
                 data={data}
@@ -184,6 +189,7 @@ export default function Component() {
                   paddingLeft: "10px",
                 }}
               />
+              <Tooltip />
             </PieChart>
           </ResponsiveContainer>
         </div>

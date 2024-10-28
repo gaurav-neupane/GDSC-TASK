@@ -3,10 +3,11 @@ import logo from "../assets/200516190.png";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "./authContext";
-// import { EyeIcon, EyeOffIcon, UserIcon } from 'lucide-react'
+import { EyeIcon, EyeOffIcon, UserIcon } from 'lucide-react'
 
 function Signup() {
 
+  const [showPassword, setShowPassword] = useState(false);
   const { signUp } = useUserAuth();  
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -29,6 +30,10 @@ function Signup() {
       }
     }
   };
+
+  const handlePasswordType = () => {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center p-4">
@@ -63,7 +68,9 @@ function Signup() {
                 placeholder="you@example.com"
                 required
               />
-              <div>{/* //User Icon */}</div>
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <UserIcon className="h-5 w-5 text-gray-400"/>
+              </div>
             </div>
           </div>
           <div className="relative mx-6 mb-5">
@@ -73,7 +80,7 @@ function Signup() {
             >
               Password
             </label>
-            <div className="relative">
+            <div>
               <input
                 id="password"
                 name="password"
@@ -85,7 +92,6 @@ function Signup() {
                 required
                 placeholder="Enter your password"
               />
-              <button type="button"></button>
             </div>
           </div>
           <div className="relative mx-6 mb-5">
@@ -99,7 +105,7 @@ function Signup() {
               <input
                 id="Confirm-Password"
                 name="Confirm-Password"
-                type="password"
+                type={showPassword?"text":"password"}
                 onChange={(e) => {
                   setConfiPassword(e.target.value);
                 }}
@@ -107,7 +113,12 @@ function Signup() {
                 required
                 placeholder="Confirm your password"
               />
-              <button type="button"></button>
+              <button
+                type="button"
+                onClick={handlePasswordType}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                {showPassword ? <EyeIcon className="h-5 w-5" />:<EyeOffIcon className="h-5 w-5" />}
+              </button>
             </div>
           </div>
           <div className="relative mx-6">

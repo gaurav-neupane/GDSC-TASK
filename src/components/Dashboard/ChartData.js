@@ -1,9 +1,9 @@
 export const dataRadial = [
-    { name: "Progress", value: 670 },
-    { name: "Remaining", value: 3200 - 670 },
+    { name: "Progress", value: 1100 },
+    { name: "Remaining", value: 3200 - 1100 },
   ];
   
-export const COLORS1 = ["#3F72AF", " #d1d5db "];
+export const COLORS1 = ["#3F72AF", " #d1d5db"];
 export  const COLORS2 = ["#69a773", "#afc683", "#f3e3a0", "#edb16e", "#e57b54"];
   
 export const dataEntry = [
