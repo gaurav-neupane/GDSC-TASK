@@ -38,7 +38,14 @@ export default function Component() {
 
   useEffect(() => {
     socket.on("random_number", (data) => {
-      setRateData((currentrateData) => [
+      setRateData((currentrateData) =>
+        currentrateData.length>30 ?[
+        ...(currentrateData.slice(1)),
+        {
+          name: "time",
+          rate: data.number * (100 - 40) + 40,
+        },
+      ]:[
         ...currentrateData,
         {
           name: "time",
