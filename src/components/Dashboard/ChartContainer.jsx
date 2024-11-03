@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Flame, Timer, MoonStar } from 'lucide-react';
+import { Flame, Timer, MoonStar } from "lucide-react";
 import { IoWaterOutline } from "react-icons/io5";
-
 import { io } from "socket.io-client";
 import {
   LineChart,
@@ -20,10 +19,19 @@ import {
   Cell,
 } from "recharts";
 
+import {
+  data,
+  Data,
+  Data2,
+  dataEntry,
+  dataEntry2,
+  dataEntry3,
+  dataRadial,
+  COLORS1,
+  COLORS2,
+} from "./ChartData";
 
-import {data , Data , dataEntry , dataRadial , COLORS1 , COLORS2} from "./ChartData"
-
-const Metric = ({ title, value , icon}) => (
+const Metric = ({ title, value, icon }) => (
   <div className="flex flex-col justify-center items-center bg-gray-800 p-4 rounded-lg">
     <span className="mb-4 text-gray-400">{icon}</span>
     <h3 className="text-sm font-medium text-gray-100">{title}</h3>
@@ -35,23 +43,48 @@ const socket = io("https://data.gdscnsut.com");
 
 export default function Component() {
   const [rateData, setRateData] = useState([]);
+  const [dataMain, setDataMain] = useState(dataEntry);
+  const [dataBar, setBarData] = useState(Data);
+
+  const handleDataChangeMain = (e) => {
+    e.preventDefault();
+    if (e.target.value === "today") {
+      setDataMain(dataEntry3);
+    } else if (e.target.value === "week") {
+      setDataMain(dataEntry2);
+    } else {
+      setDataMain(dataEntry);
+    }
+  };
+
+  const handleDataChangeBar = (e) => {
+    e.preventDefault();
+    if (e.target.value === "week") {
+      setBarData(Data2);
+    } else {
+      setBarData(Data);
+    }
+  };
 
   useEffect(() => {
     socket.on("random_number", (data) => {
       setRateData((currentrateData) =>
-        currentrateData.length>30 ?[
-        ...(currentrateData.slice(1)),
-        {
-          name: "time",
-          rate: data.number + (Math.random()*(180 - 50) + 50),
-        },
-      ]:[
-        ...currentrateData,
-        {
-          name: "time",
-          rate: data.number + (Math.random()*(180 - 50) + 50),
-        },
-      ]);
+        currentrateData.length > 30
+          ? [
+              ...currentrateData.slice(1),
+              {
+                name: "time",
+                rate: data.number + (Math.random() * (180 - 50) + 50),
+              },
+            ]
+          : [
+              ...currentrateData,
+              {
+                name: "time",
+                rate: data.number + (Math.random() * (180 - 50) + 50),
+              },
+            ]
+      );
     });
   }, []);
 
@@ -59,11 +92,22 @@ export default function Component() {
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="grid max-lg:grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Chart */}
-        <div className="lg:col-span-2 bg-gray-800 p-4 rounded-lg">
+        <div className="lg:col-span-2 bg-gray-800 p-4 rounded-lg relative">
           <h2 className="text-xl font-bold mb-4">Activity</h2>
-          <ResponsiveContainer width="100%" height={300}>
+          <div className="absolute top-4 left-3/4">
+            <select
+              name="selectedFruit"
+              className="bg-gray-800 p-1 border-2 hover:border-green-300 rounded-md focus:outline-none"
+              onChange={handleDataChangeMain}
+            >
+              <option value="month">This Month</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+            </select>
+          </div>
+          <ResponsiveContainer width="100%" height={300} className="relative">
             <AreaChart
-              data={dataEntry}
+              data={dataMain}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
               <defs>
@@ -80,7 +124,7 @@ export default function Component() {
                   <stop offset="95%" stopColor="#3282B8" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="month" />
+              <XAxis dataKey="value" />
               <YAxis />
               <Tooltip />
               <Legend />
@@ -111,10 +155,26 @@ export default function Component() {
 
         {/* Metrics */}
         <div className="grid grid-cols-2 gap-4">
-          <Metric title="Energy Burn" value="1,234" icon={<Flame className="h-8 w-8"/>} />
-          <Metric title="Time" value="40m 35s" icon={<Timer className="h-8 w-8"/>} />
-          <Metric title="Water Intake" value="2.3%" icon={<IoWaterOutline className="h-8 w-8"/>} />
-          <Metric title="Sleep" value="60m 45s" icon={<MoonStar className="h-8 w-8"/>} />
+          <Metric
+            title="Energy Burn"
+            value="1,234"
+            icon={<Flame className="h-8 w-8" />}
+          />
+          <Metric
+            title="Time"
+            value="40m 35s"
+            icon={<Timer className="h-8 w-8" />}
+          />
+          <Metric
+            title="Water Intake"
+            value="2.3%"
+            icon={<IoWaterOutline className="h-8 w-8" />}
+          />
+          <Metric
+            title="Sleep"
+            value="60m 45s"
+            icon={<MoonStar className="h-8 w-8" />}
+          />
         </div>
 
         {/* List Section */}
@@ -160,9 +220,7 @@ export default function Component() {
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-4xl font-bold">1100</span>
-                <span className="text-xl font-medium">
-                  / 3200
-                </span>
+                <span className="text-xl font-medium">/ 3200</span>
               </div>
             </div>
           </div>
@@ -216,11 +274,21 @@ export default function Component() {
         </div>
 
         {/* Bar Chart */}
-        <div className="lg:col-span-2 bg-gray-800 p-4 rounded-lg">
+        <div className="lg:col-span-2 bg-gray-800 p-4 rounded-lg relative">
           <h2 className="text-xl font-bold mb-4">Fitness Score</h2>
+          <div className="absolute top-4 left-3/4">
+            <select
+              name="selectedFruit"
+              className="bg-gray-800 p-1 border-2 hover:border-green-300 rounded-md focus:outline-none"
+              onChange={handleDataChangeBar}
+            >
+              <option value="month">This Month</option>
+              <option value="week">This Week</option>
+            </select>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
-              data={Data}
+              data={dataBar}
               margin={{
                 top: 5,
                 right: 30,
@@ -234,7 +302,7 @@ export default function Component() {
                   <stop offset="95%" stopColor="#fb923c" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="month" />
+              <XAxis dataKey="value" />
               <YAxis />
               <Legend />
               <Bar dataKey="Score" fill="url(#colorBar)" />

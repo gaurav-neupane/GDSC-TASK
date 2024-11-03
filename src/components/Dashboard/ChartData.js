@@ -11,46 +11,137 @@ export const dataEntry = [
       Running: 4000,
       Swimming: 2400,
       Workout: 2400,
-      month: "Jan",
+      value: "Jan",
     },
     {
       Running: 3000,
       Swimming: 1398,
       Workout: 3000,
-      month: "Feb",
+      value: "Feb",
     },
     {
       Running: 2000,
       Swimming: 9800,
       Workout: 6000,
-      month: "Mar",
+      value: "Mar",
     },
     {
       Running: 2780,
       Swimming: 3908,
       Workout: 4500,
-      month: "Apr",
+      value: "Apr",
     },
     {
       Running: 1890,
       Swimming: 4800,
       Workout: 8650,
-      month: "Jun",
+      value: "Jun",
     },
     {
       Running: 2390,
       Swimming: 3800,
       Workout: 9000,
-      month: "Jul",
+      value: "Jul",
     },
     {
       Running: 3490,
       Swimming: 4300,
       Workout: 4000,
-      month: "Aug",
+      value: "Aug",
     },
   ];
   
+  export const dataEntry2 = [
+    {
+      Running: 3050,
+      Swimming: 1400,
+      Workout: 5400,
+      value: "Mon",
+    },
+    {
+      Running: 1000,
+      Swimming: 138,
+      Workout: 3000,
+      value: "Tue",
+    },
+    {
+      Running: 1000,
+      Swimming: 300,
+      Workout: 3000,
+      value: "Wed",
+    },
+    {
+      Running: 1080,
+      Swimming: 908,
+      Workout: 2500,
+      value: "Thurs",
+    },
+    {
+      Running: 2290,
+      Swimming: 1000,
+      Workout: 5550,
+      value: "Fri",
+    },
+    {
+      Running: 1090,
+      Swimming: 200,
+      Workout: 2000,
+      value: "Sat",
+    },
+    {
+      Running: 2090,
+      Swimming: 20,
+      Workout: 1000,
+      value: "Sun",
+    },
+];
+  
+export const dataEntry3 = [
+  {
+    Running: 1000,
+    Swimming: 0,
+    Workout: 100,
+    value: "6:00",
+  },
+  {
+    Running: 0,
+    Swimming: 0,
+    Workout: 40,
+    value: "9:00",
+  },
+  {
+    Running: 0,
+    Swimming: 0,
+    Workout: 0,
+    value: "1:00",
+  },
+  {
+    Running: 0,
+    Swimming: 0,
+    Workout: 0,
+    value: "3:00",
+  },
+  {
+    Running: 0,
+    Swimming: 2000,
+    Workout: 0,
+    value: "5:00",
+  },
+  {
+    Running: 1000,
+    Swimming: 0,
+    Workout: 5000,
+    value: "8:00",
+  },
+  {
+    Running: 0,
+    Swimming: 0,
+    Workout: 0,
+    value: "10:00",
+  },
+];
+
+
 export const data = [
     { name: "Vit & Mins", value: 400 },
     { name: "Carbs", value: 300 },
@@ -62,31 +153,62 @@ export const data = [
  export const Data = [
     {
       Score: 2400,
-      month: "Jan",
+      value: "Jan",
     },
     {
       Score: 3980,
-      month: "Feb",
+      value: "Feb",
     },
     {
       Score: 6670,
-      month: "Mar",
+      value: "Mar",
     },
     {
       Score: 2780,
-      month: "Apr",
+      value: "Apr",
     },
     {
       Score: 8650,
-      month: "Jun",
+      value: "Jun",
     },
     {
       Score: 3800,
-      month: "Jul",
+      value: "Jul",
     },
     {
       Score: 4300,
-      month: "Aug",
+      value: "Aug",
     },
 ];
   
+export const Data2 = [
+  {
+    Score: 1100,
+    value: "Mon",
+  },
+  {
+    Score: 2980,
+    value: "Tue",
+  },
+  {
+    Score: 4670,
+    value: "Wed",
+  },
+  {
+    Score: 5780,
+    value: "Thur",
+  },
+  {
+    Score: 3650,
+    value: "Fri",
+  },
+  {
+    Score: 6800,
+    value: "Sat",
+  },
+  {
+    Score: 1300,
+    value: "Sun",
+  },
+];
+
